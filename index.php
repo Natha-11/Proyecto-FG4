@@ -51,7 +51,7 @@ foreach ($activeServices as $service) {
     <header id="navbar">
         <div class="logo-container">
             <a href="#" class="logo-link">
-                <img src="logo.png" alt="Logo BEAUTY MAKEUP" class="logo-img-circular">
+                <img src="uploads/logo.png" alt="Logo BEAUTY MAKEUP" class="product-img">
                 <span class="logo-text">BEAUTY MAKEUP</span>
             </a>
         </div>
@@ -111,7 +111,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(9)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="imagen1.jpg" alt="NATURAL" class="product-img">
+                <img src="uploads/imagen1.jpg" alt="NATURAL" class="product-img">
                 <h3 style="text-transform: uppercase;">NATURAL</h3>
                 <p class="price">$500</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -134,7 +134,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(10)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="imagen2.jpg" alt="SOFT GLAM" class="product-img">
+                <img src="uploads/imagen2.jpg" alt="SOFT GLAM" class="product-img">
                 <h3 style="text-transform: uppercase;">SOFT GLAM</h3>
                 <p class="price">$600</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -157,7 +157,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(11)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="imagen3.jpg" alt="SMOKEY" class="product-img">
+                <img src="uploads/imagen3.jpg" alt="SMOKEY" class="product-img">
                 <h3 style="text-transform: uppercase;">SMOKEY</h3>
                 <p class="price">$1.200</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -180,7 +180,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(12)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="imagen4.jpg" alt="EDITORIAL" class="product-img">
+                <img src="uploads/imagen4.jpg" alt="EDITORIAL" class="product-img">
                 <h3 style="text-transform: uppercase;">EDITORIAL</h3>
                 <p class="price">$1.500</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -203,7 +203,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(12)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="bridal.jpg" alt="BRIDAL" class="product-img">
+                <img src="uploads/bridal.jpg" alt="BRIDAL" class="product-img">
                 <h3 style="text-transform: uppercase;">BRIDAL</h3>
                 <p class="price">$2.000</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -217,10 +217,16 @@ foreach ($activeServices as $service) {
             <div class="product-card reveal">
                 <?php if (isset($_SESSION['admin_id'])): ?>
                     <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="0">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(0)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="nith.jpg" alt="GLAM NIGHT" class="product-img">
+                <img src="uploads/nith.jpg" alt="GLAM NIGHT" class="product-img">
                 <h3 style="text-transform: uppercase;">GLAM NIGHT</h3>
                 <p class="price">$800</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -243,7 +249,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(14)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="pestañas.jpg" alt="Pestañas" class="product-img">
+                <img src="uploads/pestañas.jpg" alt="Pestañas" class="product-img">
                 <h3 style="text-transform: uppercase;">Pestañas</h3>
                 <p class="price">$300</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -266,7 +272,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(13)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="cejas.jpg" alt="Cejas" class="product-img">
+                <img src="uploads/cejas.jpg" alt="Cejas" class="product-img">
                 <h3 style="text-transform: uppercase;">Cejas</h3>
                 <p class="price">$250</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
@@ -313,7 +319,7 @@ foreach ($activeServices as $service) {
 
                 <div class="dev-card reveal">
                     <div class="dev-img-container">
-                        <img src="nathalia.jpg" alt="Desarrollador 1" class="dev-img">
+                        <img src="uploads/nathalia.jpg" alt="Desarrollador 1" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Nathalia Corniel</h3>
@@ -324,7 +330,7 @@ foreach ($activeServices as $service) {
 
                 <div class="dev-card reveal">
                     <div class="dev-img-container">
-                        <img src="isairis.jpeg" alt="Desarrollador 2" class="dev-img">
+                        <img src="uploads/isairis.jpeg" alt="Desarrollador 2" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Isairis Ferrera</h3>
@@ -335,7 +341,7 @@ foreach ($activeServices as $service) {
 
                 <div class="dev-card reveal">
                     <div class="dev-img-container">
-                        <img src="unnamed.png" alt="Desarrollador 3" class="dev-img">
+                        <img src="uploads/unnamed.png" alt="Desarrollador 3" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Ery Joel</h3>
@@ -346,7 +352,7 @@ foreach ($activeServices as $service) {
 
                 <div class="dev-card reveal">
                     <div class="dev-img-container">
-                        <img src="Adam.jpg" alt="Desarrollador 4" class="dev-img">
+                        <img src="uploads/Adam.jpg" alt="Desarrollador 4" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Adam Luis</h3>
