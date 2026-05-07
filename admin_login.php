@@ -29,6 +29,9 @@ if (isset($_SESSION['admin_id'])) {
             <?php if (isset($_GET['error'])): ?>
                 <p style="color:red; text-align:center; margin-bottom:1rem;">Credenciales incorrectas.</p>
             <?php endif; ?>
+            <?php if (isset($_GET['success'])): ?>
+                <p style="color:green; text-align:center; margin-bottom:1rem;">Administrador creado correctamente.</p>
+            <?php endif; ?>
             <form action="auth_admin.php" method="POST">
                 <div class="input-box">
                     <input type="text" name="username" placeholder="Usuario o ID" required>
@@ -38,6 +41,7 @@ if (isset($_SESSION['admin_id'])) {
                 </div>
                 <div style="text-align: center;">
                     <button type="submit" class="cta-button" style="width: 100%; max-width: 90%;">Ingresar</button>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #ccc;">¿No tienes cuenta? <a href="admin_register.php" style="color: #ff3366; text-decoration: none; font-weight: bold;">Regístrate aquí</a></p>
                     <a href="index.php" style="display: block; margin-top: 1rem; color: #666; font-size: 0.8rem; text-decoration: none;">Volver al sitio</a>
                 </div>
             </form>
