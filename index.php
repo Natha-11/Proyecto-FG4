@@ -271,7 +271,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(13)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="uploads/cejas.jpg" alt="Cejas" class="product-img">
+                <img src="uploads/Cejas.jpg" alt="Cejas" class="product-img">
                 <h3 style="text-transform: uppercase;">Cejas</h3>
                 <p class="price">$250</p>
                 <?php if (isset($_SESSION['user_id'])): ?>
