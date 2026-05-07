@@ -1,0 +1,126 @@
+{
+    "name": "Glow Belleza - Ultimate Notification System",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "formulario-contacto",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "webhook-trigger",
+            "name": "Webhook - Recibir Reserva",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                100,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "citas@glowbelleza.com",
+                "toEmail": "={{$json.email}}",
+                "subject": "✨ Confirmación de tu reserva en Glow Belleza",
+                "emailType": "html",
+                "message": "<!DOCTYPE html><html><body style=\"font-family: Arial, sans-serif; background-color: #0a0a0a; color: #f5f5f5; padding: 40px;\"><div style=\"max-width: 600px; margin: 0 auto; border: 1px solid #d4a5a5; padding: 30px; border-radius: 12px;\"><h1 style=\"color: #d4a5a5; text-align: center;\">Glow Belleza</h1><p style=\"font-size: 1.1rem;\">Hola <strong>{{$json.nombre}}</strong>,</p><p>Tu cita para <strong>{{$json.servicio}}</strong> ha sido confirmada con éxito.</p><div style=\"background: #1a1a1a; padding: 20px; border-radius: 8px; margin: 20px 0;\"><p>📅 <strong>Fecha:</strong> {{$json.fecha}}</p><p>🕐 <strong>Hora:</strong> {{$json.hora}}</p><p>🔖 <strong>Código:</strong> {{$json.codigo_confirmacion}}</p></div><p style=\"text-align: center;\">¡Te esperamos para resaltar tu esencia!</p></div></body></html>",
+                "options": {}
+            },
+            "id": "gmail-node",
+            "name": "Enviar Gmail",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2,
+            "position": [
+                400,
+                200
+            ],
+            "credentials": {
+                "smtp": {
+                    "id": "1",
+                    "name": "Gmail Glow"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "https://api.whatsapp.com/send",
+                "sendBody": true,
+                "specifyBody": "json",
+                "jsonBody": "={\n  \"phone\": \"{{$json.telefono}}\",\n  \"message\": \"✨ ¡Hola {{$json.nombre}}! Tu cita en Glow Belleza para {{$json.servicio}} está confirmada para el {{$json.fecha}} a las {{$json.hora}}. ¡Te esperamos!\"\n}",
+                "options": {}
+            },
+            "id": "whatsapp-node",
+            "name": "WhatsApp Alert",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                400,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={\n  \"success\": true,\n  \"message\": \"Notificaciones enviadas correctamente\",\n  \"trace\": \"{{$now.toISO()}}\"\n}",
+                "options": {}
+            },
+            "id": "respond-node",
+            "name": "Confirmar al Sistema",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                700,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook - Recibir Reserva": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Gmail",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "WhatsApp Alert",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Enviar Gmail": {
+            "main": [
+                [
+                    {
+                        "node": "Confirmar al Sistema",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "WhatsApp Alert": {
+            "main": [
+                [
+                    {
+                        "node": "Confirmar al Sistema",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": true,
+    "settings": {},
+    "versionId": "1",
+    "id": "glow-ultimate",
+    "meta": {
+        "instanceId": "nathacc18"
+    },
+    "tags": []
+}

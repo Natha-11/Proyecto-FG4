@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS `registro`;
+USE `registro`;
+
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(150) NOT NULL,
+  `telefono` VARCHAR(50) NOT NULL,
+  `servicio` VARCHAR(100) NOT NULL,
+  `fecha` VARCHAR(50) NOT NULL,
+  `hora_servicio` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

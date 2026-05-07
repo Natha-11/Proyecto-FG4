@@ -1,0 +1,142 @@
+﻿[
+    {
+        "id": "1",
+        "nombre": "NATURAL",
+        "precio": "500.00",
+        "imagen": "imagen1.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "2",
+        "nombre": "SOFT GLAM",
+        "precio": "600.00",
+        "imagen": "imagen2.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "0"
+    },
+    {
+        "id": "3",
+        "nombre": "SMOKEY",
+        "precio": "1200.00",
+        "imagen": "imagen3.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "4",
+        "nombre": "EDITORIAL",
+        "precio": "1500.00",
+        "imagen": "imagen4.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "5",
+        "nombre": "BRIDAL",
+        "precio": "2000.00",
+        "imagen": "bridal.jpg",
+        "categoria": "especial",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "6",
+        "nombre": "GLAM NIGHT",
+        "precio": "800.00",
+        "imagen": "nith.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "7",
+        "nombre": "Pesta\u00f1as",
+        "precio": "300.00",
+        "imagen": "pesta\u00f1as.jpg",
+        "categoria": "ojos",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "8",
+        "nombre": "Cejas",
+        "precio": "250.00",
+        "imagen": "cejas.jpg",
+        "categoria": "cejas",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "9",
+        "nombre": "Maquillaje Natural",
+        "precio": "500.00",
+        "imagen": "imagen1.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "10",
+        "nombre": "Soft Glam",
+        "precio": "600.00",
+        "imagen": "imagen2.jpg",
+        "categoria": "maquillaje",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "11",
+        "nombre": "Smokey Eyes",
+        "precio": "1200.00",
+        "imagen": "imagen3.jpg",
+        "categoria": "ojos",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "12",
+        "nombre": "Bridal Elegance",
+        "precio": "2500.00",
+        "imagen": "bridal.jpg",
+        "categoria": "especial",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "1"
+    },
+    {
+        "id": "13",
+        "nombre": "Dise\u00f1o de Cejas",
+        "precio": "300.00",
+        "imagen": "Cejas.jpg",
+        "categoria": "cejas",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "0"
+    },
+    {
+        "id": "14",
+        "nombre": "Pesta\u00f1as Premium",
+        "precio": "350.00",
+        "imagen": "pesta\u00f1as.jpg",
+        "categoria": "ojos",
+        "descripcion": null,
+        "duracion_horas": "1",
+        "activo": "0"
+    }
+]
