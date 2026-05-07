@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
     }
-    header("Location: admin_login.php?error=1");
+    header("Location: login.php?error=1");
 } else {
-    header("Location: admin_login.php");
+    header("Location: login.php");
 }
 ?>

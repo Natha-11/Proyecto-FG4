@@ -50,7 +50,7 @@ if (isset($_SESSION['admin_id'])) {
                 </div>
                 <div style="text-align: center;">
                     <button type="submit" class="cta-button" style="width: 100%; max-width: 90%;">Registrar Admin</button>
-                    <a href="admin_login.php" style="display: block; margin-top: 1rem; color: #666; font-size: 0.8rem; text-decoration: none;">Volver al Login</a>
+                    <a href="login.php" style="display: block; margin-top: 1rem; color: #666; font-size: 0.8rem; text-decoration: none;">Volver al Login</a>
                 </div>
             </form>
         </div>

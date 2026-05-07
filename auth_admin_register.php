@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("sss", $username, $email, $passwordHash);
 
     if ($stmt->execute()) {
-        header("Location: admin_login.php?success=1");
+        header("Location: login.php?success=1");
         exit();
     } else {
         header("Location: admin_register.php?error=db_error");

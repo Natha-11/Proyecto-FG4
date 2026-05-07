@@ -26,13 +26,19 @@
                     <div
                         style="background: rgba(255, 0, 0, 0.1); color: #ff6b6b; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; border: 1px solid rgba(255, 0, 0, 0.2);">
                         <?php
-                        if ($_GET['error'] == 'wrongpass1234')
-                            echo "Contraseña incorrecta.";
+                        if ($_GET['error'] == 'wrongpass' || $_GET['error'] == '1')
+                            echo "Credenciales incorrectas.";
                         elseif ($_GET['error'] == 'notfound')
                             echo "Usuario no registrado.";
                         else
                             echo "Error al iniciar sesión.";
                         ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($_GET['success'])): ?>
+                    <div
+                        style="background: rgba(0, 255, 0, 0.1); color: #2ecc71; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; border: 1px solid rgba(0, 255, 0, 0.2);">
+                        Administrador creado correctamente.
                     </div>
                 <?php endif; ?>
                 <form action="auth_login.php" method="POST">
