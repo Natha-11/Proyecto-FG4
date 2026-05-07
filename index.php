@@ -51,7 +51,7 @@ foreach ($activeServices as $service) {
     <header id="navbar">
         <div class="logo-container">
             <a href="#" class="logo-link">
-                <img src="uploads/logo.png" alt="Logo BEAUTY MAKEUP" class="product-img">
+                <img src="logo.png" alt="Logo BEAUTY MAKEUP" class="logo-img-circular">
                 <span class="logo-text">BEAUTY MAKEUP</span>
             </a>
         </div>
@@ -318,8 +318,19 @@ foreach ($activeServices as $service) {
             <div class="dev-grid">
 
                 <div class="dev-card reveal">
+                    <?php if (isset($_SESSION['admin_id'])): ?>
+                        <div class="admin-card-controls">
+                            <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="toggle">
+                                <input type="hidden" name="id" value="16">
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                            </form>
+                            <div class="admin-control-btn edit" title="Editar" onclick="editService(16)"><i class="fas fa-pen"></i></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="dev-img-container">
-                        <img src="uploads/nathalia.jpg" alt="Desarrollador 1" class="product-img">
+                        <img src="nathalia.jpg" alt="Desarrollador 1" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Nathalia Corniel</h3>
@@ -329,8 +340,19 @@ foreach ($activeServices as $service) {
 
 
                 <div class="dev-card reveal">
+                    <?php if (isset($_SESSION['admin_id'])): ?>
+                        <div class="admin-card-controls">
+                            <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="toggle">
+                                <input type="hidden" name="id" value="17">
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                            </form>
+                            <div class="admin-control-btn edit" title="Editar" onclick="editService(17)"><i class="fas fa-pen"></i></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="dev-img-container">
-                        <img src="uploads/isairis.jpeg" alt="Desarrollador 2" class="product-img">
+                        <img src="isairis.jpeg" alt="Desarrollador 2" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Isairis Ferrera</h3>
@@ -340,8 +362,19 @@ foreach ($activeServices as $service) {
 
 
                 <div class="dev-card reveal">
+                    <?php if (isset($_SESSION['admin_id'])): ?>
+                        <div class="admin-card-controls">
+                            <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="toggle">
+                                <input type="hidden" name="id" value="18">
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                            </form>
+                            <div class="admin-control-btn edit" title="Editar" onclick="editService(18)"><i class="fas fa-pen"></i></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="dev-img-container">
-                        <img src="uploads/unnamed.png" alt="Desarrollador 3" class="product-img">
+                        <img src="unnamed.png" alt="Desarrollador 3" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Ery Joel</h3>
@@ -351,8 +384,19 @@ foreach ($activeServices as $service) {
 
 
                 <div class="dev-card reveal">
+                    <?php if (isset($_SESSION['admin_id'])): ?>
+                        <div class="admin-card-controls">
+                            <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="action" value="toggle">
+                                <input type="hidden" name="id" value="19">
+                                <input type="hidden" name="status" value="1">
+                                <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                            </form>
+                            <div class="admin-control-btn edit" title="Editar" onclick="editService(19)"><i class="fas fa-pen"></i></div>
+                        </div>
+                    <?php endif; ?>
                     <div class="dev-img-container">
-                        <img src="uploads/Adam.jpg" alt="Desarrollador 4" class="product-img">
+                        <img src="Adam.jpg" alt="Desarrollador 4" class="product-img">
                     </div>
                     <div class="dev-info">
                         <h3>Adam Luis</h3>
@@ -985,17 +1029,41 @@ foreach ($activeServices as $service) {
             });
 
             // Botones de las tarjetas de producto redirigidos al Modal
+            function normalizeText(text) {
+                return text.trim()
+                    .toLowerCase()
+                    .normalize('NFD')
+                    .replace(/[̀-ͯ]/g, '')
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .replace(/\s+/g, ' ');
+            }
+
             document.querySelectorAll('.reserve-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const serviceVal = btn.getAttribute('data-service');
                     const sel = document.querySelector('select[name="servicio"]');
                     const display = document.getElementById('selected-service-display');
+                    const cardName = btn.closest('.product-card')?.querySelector('h3')?.textContent || '';
+                    let optionToSelect = null;
 
-                    if (sel && serviceVal) {
-                        sel.value = serviceVal;
+                    if (sel) {
+                        if (serviceVal) {
+                            optionToSelect = Array.from(sel.options).find(opt => opt.value === serviceVal);
+                        }
+
+                        if (!optionToSelect && cardName) {
+                            const normalizedCardName = normalizeText(cardName);
+                            optionToSelect = Array.from(sel.options).find(opt => normalizeText(opt.textContent) === normalizedCardName);
+                        }
+
+                        if (!optionToSelect) {
+                            alert('El servicio seleccionado no está disponible en este momento. Por favor, elige otro servicio.');
+                            return;
+                        }
+
+                        sel.value = optionToSelect.value;
                         if (display) {
-                            const nameText = sel.options[sel.selectedIndex].text;
-                            display.textContent = `Servicio Seleccionado: ${nameText}`;
+                            display.textContent = `Servicio Seleccionado: ${optionToSelect.textContent}`;
                         }
                     }
 

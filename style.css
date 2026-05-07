@@ -51,7 +51,33 @@ html {
     scroll-behavior: smooth;
 }
 
-/* NavegaciÃ³n Flotante y Minimalista */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    z-index: 2000;
+}
+
+.cursor-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    box-shadow: 0 0 12px rgba(223, 207, 190, 0.35);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(223, 207, 190, 0.5);
+    background: transparent;
+}
+
+/* Navegación Flotante y Minimalista */
 header {
     position: fixed;
     top: 1rem;

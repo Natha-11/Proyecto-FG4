@@ -7,36 +7,54 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lógica del cursor personalizado
     const cursorDot = document.getElementById('cursor-dot');
     const cursorOutline = document.getElementById('cursor-outline');
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
 
-    // Idealmente solo activo en dispositivos sin pantalla táctil, pero es más sencillo simplemente ejecutarlo
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
+    const shouldUseCustomCursor = cursorDot && cursorOutline && window.matchMedia('(pointer: fine)').matches;
 
-        // El punto sigue instantáneamente
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
+    if (shouldUseCustomCursor) {
+        cursorDot.style.display = 'block';
+        cursorOutline.style.display = 'block';
 
-        // El contorno sigue con retraso (generalmente manejado por la transición CSS o la animación JS)
-        // Usando animate para un efecto de seguimiento más suave
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
-    });
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+
+        const animateCursorOutline = () => {
+            outlineX += (mouseX - outlineX) * 0.18;
+            outlineY += (mouseY - outlineY) * 0.18;
+            cursorOutline.style.left = `${outlineX}px`;
+            cursorOutline.style.top = `${outlineY}px`;
+            requestAnimationFrame(animateCursorOutline);
+        };
+
+        requestAnimationFrame(animateCursorOutline);
+    }
 
     // Efectos de desplazamiento para el cursor
     const interactiveElements = document.querySelectorAll('a, button, .product-card');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
+            if (!cursorOutline) return;
             cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
             cursorOutline.style.backgroundColor = 'rgba(212, 165, 165, 0.1)';
             cursorOutline.style.borderColor = 'transparent';
+            cursorOutline.style.width = '80px';
+            cursorOutline.style.height = '80px';
         });
         el.addEventListener('mouseleave', () => {
+            if (!cursorOutline) return;
             cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
             cursorOutline.style.backgroundColor = 'transparent';
-            cursorOutline.style.borderColor = 'var(--primary-color)';
+            cursorOutline.style.borderColor = 'rgba(223, 207, 190, 0.5)';
+            cursorOutline.style.width = '40px';
+            cursorOutline.style.height = '40px';
         });
     });
 
@@ -87,19 +105,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Interacciones del cursor mejoradas para el nuevo diseño
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorOutline.style.width = '80px';
-            cursorOutline.style.height = '80px';
-            cursorOutline.style.backgroundColor = 'rgba(223, 207, 190, 0.1)';
-            cursorOutline.style.borderColor = 'var(--primary-color)';
-        });
-        el.addEventListener('mouseleave', () => {
-            cursorOutline.style.width = '40px';
-            cursorOutline.style.height = '40px';
-            cursorOutline.style.backgroundColor = 'transparent';
-            cursorOutline.style.borderColor = 'rgba(223, 207, 190, 0.5)';
-        });
-    });
 });
