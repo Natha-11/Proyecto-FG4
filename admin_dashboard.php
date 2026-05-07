@@ -68,6 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $email = $_POST['email'];
+            
+            // Check if username already exists
+            $check_stmt = $conexion->prepare("SELECT id FROM admins WHERE username = ?");
+            $check_stmt->bind_param("s", $username);
+            $check_stmt->execute();
+            $check_stmt->store_result();
+            if ($check_stmt->num_rows > 0) {
+                $_SESSION['error'] = "Username already exists.";
+                header("Location: admin_dashboard.php");
+                $check_stmt->close();
+                exit;
+            }
+            $check_stmt->close();
+            
             $stmt = $conexion->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $username, $password, $email);
             $stmt->execute();
@@ -75,6 +89,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $username = $_POST['username'];
             $email = $_POST['email'];
+            
+            // Check if username already exists for another admin
+            $check_stmt = $conexion->prepare("SELECT id FROM admins WHERE username = ? AND id != ?");
+            $check_stmt->bind_param("si", $username, $id);
+            $check_stmt->execute();
+            $check_stmt->store_result();
+            if ($check_stmt->num_rows > 0) {
+                $_SESSION['error'] = "Username already exists.";
+                header("Location: admin_dashboard.php");
+                $check_stmt->close();
+                exit;
+            }
+            $check_stmt->close();
+            
             if (!empty($_POST['password'])) {
                 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
                 $stmt = $conexion->prepare("UPDATE admins SET username=?, password=?, email=? WHERE id=?");
