@@ -45,8 +45,7 @@ foreach ($activeServices as $service) {
 </head>
 
 <body>
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+
 
     <header id="navbar">
         <div class="logo-container">
@@ -111,7 +110,7 @@ foreach ($activeServices as $service) {
                         <div class="admin-control-btn edit" title="Editar" onclick="editService(9)"><i class="fas fa-pen"></i></div>
                     </div>
                 <?php endif; ?>
-                <img src="uploads/imagen1.jpg" alt="NATURAL" class="product-img">
+                <img src="imagen1.jpg" alt="NATURAL" class="product-img">
                 <h3 style="text-transform: uppercase;">NATURAL</h3>
                 <p class="price">$500</p>
                 <?php if (isset($_SESSION['user_id'])): ?>

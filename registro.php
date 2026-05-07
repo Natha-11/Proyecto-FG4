@@ -14,8 +14,7 @@
 </head>
 
 <body>
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+
 
     <a href="login.php" class="back-link">← Volver al Login</a>
 
