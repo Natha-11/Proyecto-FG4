@@ -7,7 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual Técnico | Luxury Glow</title>
+    <title>Manual Técnico | Glow Belleza</title>
     <link rel="stylesheet" href="style.css?v=2.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -155,7 +155,7 @@ session_start();
     <header id="navbar">
         <div class="logo-container">
             <a href="index.php" class="logo-link">
-                <img src="logo_estudio.jpg" alt="Logo" class="logo-img-circular">
+                <img src="logo.png" alt="Logo" class="logo-img-circular">
                 <span class="logo-text">GUÍA TÉCNICA</span>
             </a>
         </div>
@@ -178,7 +178,7 @@ session_start();
         <div class="doc-section fade-in" id="intro">
             <h2>Introducción</h2>
             <div class="doc-content">
-                <p>Bienvenido al manual técnico del proyecto <strong>Luxury Glow</strong>. Este documento ha sido
+                <p>Bienvenido al manual técnico del proyecto <strong>Glow Belleza</strong>. Este documento ha sido
                     diseñado para explicar minuciosamente cada componente del sitio web, facilitando su comprensión para
                     presentaciones académicas o futuras expansiones del código.</p>
                 <p>El sitio se basa en una arquitectura de <strong>maquetación moderna</strong>, utilizando PHP para la
@@ -233,7 +233,7 @@ session_start();
                     facilitar cambios globales de color.</p>
 
                 <div class="code-block">
-                    <span class="comment">/* Variables de Luxury Glow */</span><br>
+                    <span class="comment">/* Variables de Glow Belleza */</span><br>
                     :root {<br>
                     &nbsp;&nbsp;--bg-color: <span class="val">#0a0a0a;</span> <span class="comment">/* Negro profundo
                         */</span><br>
@@ -337,7 +337,7 @@ session_start();
 
     <footer class="footer section-padding">
         <div class="container" style="text-align: center;">
-            <p>&copy; 2026 Manual Técnico Luxury Glow. Documentación para Examen Final.</p>
+            <p>&copy; 2026 Manual Técnico Glow Belleza. Documentación para Examen Final.</p>
         </div>
     </footer>
 

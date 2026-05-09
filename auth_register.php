@@ -6,6 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $telefono = $_POST['telefono'];
+
     // Validar si el email ya existe
     $check_email = "SELECT id FROM clientes WHERE email = ?";
     $stmt_check = $conexion->prepare($check_email);
@@ -25,11 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Insertar nuevo usuario
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO clientes (nombre, email, password) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO clientes (nombre, email, telefono, password) VALUES (?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("sss", $nombre, $email, $hashed_password);
+        $stmt->bind_param("ssss", $nombre, $email, $telefono, $hashed_password);
         if ($stmt->execute()) {
             $user_id = $stmt->insert_id;
 
@@ -39,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'user_id' => $user_id,
                 'nombre' => $nombre,
                 'email' => $email,
+                'telefono' => $telefono,
                 'fecha_registro' => date('Y-m-d H:i:s')
             ]);
 
@@ -46,6 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_start();
             $_SESSION['user_id'] = $user_id;
             $_SESSION['user_name'] = $nombre;
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_phone'] = $telefono;
 
             echo "<script>
                 alert('Su registro ha sido verificado.');

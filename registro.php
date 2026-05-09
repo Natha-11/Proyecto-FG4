@@ -30,6 +30,9 @@
                         <input type="email" name="email" required placeholder="Correo Electrónico">
                     </div>
                     <div class="input-box">
+                        <input type="tel" name="telefono" required placeholder="Teléfono / WhatsApp">
+                    </div>
+                    <div class="input-box">
                         <input type="password" name="password" required placeholder="Contraseña">
                     </div>
                     <button type="submit" class="cta-button">Registrarse</button>

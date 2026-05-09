@@ -138,6 +138,7 @@ if (isset($_GET['edit_service'])) {
 
 $servicios = $conexion->query("SELECT * FROM servicios ORDER BY id DESC");
 $admins = $conexion->query("SELECT id, username, email, ultimo_acceso FROM admins ORDER BY id ASC");
+$reservas = $conexion->query("SELECT r.*, f.nro_factura, f.metodo_pago, f.total FROM reservas r LEFT JOIN facturas f ON r.cliente_id = f.cliente_id AND r.fecha = DATE(f.fecha) ORDER BY r.fecha DESC, r.hora DESC");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -178,6 +179,7 @@ $admins = $conexion->query("SELECT id, username, email, ultimo_acceso FROM admin
         <!-- Navegación por secciones -->
         <nav class="admin-nav">
             <button class="nav-tab active" onclick="showSection('services')">Servicios</button>
+            <button class="nav-tab" onclick="showSection('reservations')">Reservas</button>
             <button class="nav-tab" onclick="showSection('admins')">Administradores</button>
         </nav>
 
@@ -291,6 +293,64 @@ $admins = $conexion->query("SELECT id, username, email, ultimo_acceso FROM admin
                         </div>
                     </div>
                 <?php endwhile; ?>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sección de Reservas -->
+        <div id="reservations-section" class="admin-section">
+            <section class="service-list admin-service-list">
+                <h3 style="margin-bottom: 1.5rem; color: var(--primary-color);">Gestión de Reservas</h3>
+                <div class="list-container">
+                <?php if ($reservas->num_rows > 0): ?>
+                    <?php while ($r = $reservas->fetch_assoc()): ?>
+                        <div class="service-item">
+                            <div class="service-info">
+                                <div class="service-img-preview" style="background: rgba(212,175,55,0.1); display: flex; align-items: center; justify-content: center; color: var(--primary-color); font-weight: bold;">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="service-details">
+                                    <h4><?php echo htmlspecialchars($r['nombre_cliente']); ?></h4>
+                                    <div class="service-meta">
+                                        <span>Servicio: <strong><?php echo htmlspecialchars($r['servicio']); ?></strong></span>
+                                        <span>Fecha: <strong><?php echo date('d/m/Y', strtotime($r['fecha'])); ?></strong></span>
+                                        <span>Hora: <strong><?php echo htmlspecialchars($r['hora']); ?></strong></span>
+                                        <span>WhatsApp: <strong><?php echo htmlspecialchars($r['telefono']); ?></strong></span>
+                                    </div>
+                                    <div class="service-meta" style="margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.5rem;">
+                                        <span>Factura: <strong style="color: var(--primary-color);"><?php echo $r['nro_factura'] ?? 'N/A'; ?></strong></span>
+                                        <span>Pago: <strong class="badge badge-<?php echo $r['metodo_pago'] ?? 'default'; ?>"><?php echo ucfirst($r['metodo_pago'] ?? 'Pendiente'); ?></strong></span>
+                                        <?php if(isset($r['total'])): ?>
+                                            <span>Monto: <strong>$<?php echo number_format($r['total'], 2); ?></strong></span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-actions">
+                                <a href="https://wa.me/<?php echo preg_replace('/[^0-9]/', '', $r['telefono']); ?>" target="_blank" class="action-icon-btn" title="Contactar por WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <?php if($r['nro_factura']): ?>
+                                    <!-- Buscamos el ID de la factura real para el enlace -->
+                                    <?php 
+                                    $stmt_f = $conexion->prepare("SELECT id FROM facturas WHERE nro_factura = ?");
+                                    $stmt_f->bind_param("s", $r['nro_factura']);
+                                    $stmt_f->execute();
+                                    $f_id = $stmt_f->get_result()->fetch_assoc()['id'] ?? null;
+                                    $stmt_f->close();
+                                    ?>
+                                    <?php if($f_id): ?>
+                                        <a href="invoice.php?id=<?php echo $f_id; ?>" class="action-icon-btn" title="Ver Factura">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p style="color: #666; font-style: italic; text-align: center; padding: 2rem;">No hay reservas registradas.</p>
+                <?php endif; ?>
                 </div>
             </section>
         </div>

@@ -1,9 +1,15 @@
 <?php
 include 'conexion.php';
-$sql = "ALTER TABLE admins ADD COLUMN ultimo_acceso DATETIME DEFAULT NULL";
-if ($conexion->query($sql)) {
-    echo "Column 'ultimo_acceso' added successfully.\n";
+
+$sql = "ALTER TABLE clientes ADD COLUMN IF NOT EXISTS telefono VARCHAR(20) DEFAULT NULL";
+if ($conexion->query($sql) === TRUE) {
+    echo "Columna 'telefono' agregada o ya existía.\n";
 } else {
-    echo "Error: " . $conexion->error . "\n";
+    echo "Error agregando columna: " . $conexion->error . "\n";
 }
+
+// También agregar columna para el conteo de citas si no existe, o simplemente usar COUNT(*)
+// El usuario quiere ver en su perfil cuántas veces agendó.
+
+$conexion->close();
 ?>
