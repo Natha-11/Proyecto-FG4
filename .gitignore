@@ -30,3 +30,11 @@ Thumbs.db
 # XAMPP / Temp
 php_errors.log
 mysql_error.log
+
+# EXCEPCIONES - Archivos necesarios que SÍ se deben subir
+!uploads/
+!uploads/**.jpg
+!uploads/**.jpeg
+!uploads/**.png
+!uploads/**.gif
+!uploads/.htaccess

@@ -900,8 +900,7 @@ foreach ($activeServices as $service) {
                 });
             });
 
-            updateCartUI();
-
+            // updateCartUI(); // Función no utilizada - el carrito se maneja mediante reservas directas
 
             // Inicio
             await fetchReservations();
