@@ -1,6 +1,6 @@
 /* 
-  SISTEMA DE DISEÑO - GLOW BELLEZA (bespoke edition)
-  Estética: High-End Editorial, Asimétrico, Minimalismo Cálido
+  SISTEMA DE DISEÃ‘O - LUXURY GLOW (bespoke edition)
+  EstÃ©tica: High-End Editorial, AsimÃ©trico, Minimalismo CÃ¡lido
 */
 
 :root {
@@ -249,7 +249,7 @@ nav {
 .hero-visual {
     position: relative;
     height: 80vh;
-    background: url('uploads/imagen1.jpg') center/cover;
+    background: url('imagen1.jpg') center/cover;
     border-radius: 4px;
     box-shadow: 20px 20px 0px rgba(223, 207, 190, 0.2);
     border: 1px solid rgba(223, 207, 190, 0.1);

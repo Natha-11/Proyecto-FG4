@@ -10,31 +10,13 @@ function serviceSlug($name) {
 }
 
 $activeServices = [];
-$seenSlugs = [];
 $servicesResult = $conexion->query("SELECT * FROM servicios WHERE activo = 1 ORDER BY id ASC");
 if ($servicesResult) {
     while ($row = $servicesResult->fetch_assoc()) {
         $row['slug'] = serviceSlug($row['nombre']);
-        if (isset($seenSlugs[$row['slug']])) {
-            continue;
-        }
-        $seenSlugs[$row['slug']] = true;
         $activeServices[] = $row;
     }
 }
-// Ensure "Limpieza Facial" service exists
-$check = $conexion->prepare("SELECT id FROM servicios WHERE nombre = ?");
-$svc = 'Limpieza Facial';
-$check->bind_param('s', $svc);
-$check->execute();
-$check->store_result();
-if ($check->num_rows === 0) {
-    $stmt = $conexion->prepare("INSERT INTO servicios (nombre, precio, imagen, categoria, activo) VALUES (?, 0, 'limpiezaF.jpeg', 'especial', 1)");
-    $stmt->bind_param('s', $svc);
-    $stmt->execute();
-    $stmt->close();
-}
-$check->close();
 
 $serviceMapJs = [];
 foreach ($activeServices as $service) {
@@ -60,8 +42,6 @@ foreach ($activeServices as $service) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta name="description"
         content="Descubre la belleza atemporal con glow belleza. Maquillaje de alta gama para la mujer moderna.">
-    <!-- SweetAlert2 para mensajes elegantes -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -70,8 +50,8 @@ foreach ($activeServices as $service) {
     <header id="navbar">
         <div class="logo-container">
             <a href="#" class="logo-link">
-                <img src="logo.png" alt="Logo Glow Belleza" class="logo-img-circular">
-                <span class="logo-text">Glow Belleza</span>
+                <img src="logo.png" alt="Logo BEAUTY MAKEUP" class="logo-img-circular">
+                <span class="logo-text">BEAUTY MAKEUP</span>
             </a>
         </div>
         <nav>
@@ -79,7 +59,7 @@ foreach ($activeServices as $service) {
                 <li><a href="#hero">Inicio</a></li>
                 <li><a href="#collection">Colección</a></li>
                 <li><a href="#about">Nosotros</a></li>
-                <li><a href="javascript:void(0)" onclick="showPolicies()">Políticas</a></li>
+                <li><a href="#contact">Información</a></li>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li>
                         <a href="perfil.php" class="nav-cta">
@@ -124,38 +104,212 @@ foreach ($activeServices as $service) {
     <section id="collection" class="section-padding" style="padding-top:0;">
         <h2 class="section-title reveal">La Colección</h2>
         <div class="product-grid">
-            <?php if (empty($activeServices)): ?>
-                <p style="text-align: center; grid-column: 1/-1; opacity: 0.6;">No hay servicios activos en este momento.</p>
-            <?php else: ?>
-                <?php foreach ($activeServices as $service): ?>
-                <div class="product-card reveal">
-                    <?php if (isset($_SESSION['admin_id'])): ?>
-                        <div class="admin-card-controls">
-                            <form action="admin_dashboard.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="action" value="toggle">
-                                <input type="hidden" name="id" value="<?php echo $service['id']; ?>">
-                                <input type="hidden" name="status" value="1">
-                                <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
-                            </form>
-                            <div class="admin-control-btn edit" title="Editar" onclick="editService(<?php echo $service['id']; ?>)"><i class="fas fa-pen"></i></div>
-                        </div>
-                    <?php endif; ?>
-                    <?php
-                        $imageFile = !empty($service['imagen']) ? $service['imagen'] : '';
-                        $imagePath = __DIR__ . '/uploads/' . $imageFile;
-                        $imageSrc = ($imageFile && file_exists($imagePath)) ? 'uploads/' . htmlspecialchars($imageFile) : 'logo.png';
-                    ?>
-                    <img src="<?php echo $imageSrc; ?>" alt="<?php echo htmlspecialchars($service['nombre']); ?>" class="product-img">
-                    <h3 style="text-transform: uppercase;"><?php echo htmlspecialchars($service['nombre']); ?></h3>
-                    <p class="price">$<?php echo number_format($service['precio'], 0, ',', '.'); ?></p>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <button class="cta-button reserve-btn" data-service="<?php echo $service['slug']; ?>">Reservar</button>
-                    <?php else: ?>
-                        <a href="login.php" class="cta-button">Reservar</a>
-                    <?php endif; ?>
-                </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+            <!-- Tarjeta: NATURAL -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="9">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(9)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="imagen1.jpg" alt="NATURAL" class="product-img">
+                <h3 style="text-transform: uppercase;">NATURAL</h3>
+                <p class="price">$500</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="natural">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: SOFT GLAM -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="10">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(10)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/imagen2.jpg" alt="SOFT GLAM" class="product-img">
+                <h3 style="text-transform: uppercase;">SOFT GLAM</h3>
+                <p class="price">$600</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="soft-glam">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: SMOKEY -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="11">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(11)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/imagen3.jpg" alt="SMOKEY" class="product-img">
+                <h3 style="text-transform: uppercase;">SMOKEY</h3>
+                <p class="price">$1.200</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="smokey-eyes">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: EDITORIAL -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="12"> <!-- Ajustado a Bridal Elegance por falta de ID Editorial -->
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(12)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/imagen4.jpg" alt="EDITORIAL" class="product-img">
+                <h3 style="text-transform: uppercase;">EDITORIAL</h3>
+                <p class="price">$1.500</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="editorial">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: BRIDAL -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="12">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(12)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/bridal.jpg" alt="BRIDAL" class="product-img">
+                <h3 style="text-transform: uppercase;">BRIDAL</h3>
+                <p class="price">$2.000</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="bridal-elegance">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: GLAM NIGHT -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="0">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(0)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/nith.jpg" alt="GLAM NIGHT" class="product-img">
+                <h3 style="text-transform: uppercase;">GLAM NIGHT</h3>
+                <p class="price">$800</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="glam-night">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: Pestañas -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="14">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(14)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/pestañas.jpg" alt="Pestañas" class="product-img">
+                <h3 style="text-transform: uppercase;">Pestañas</h3>
+                <p class="price">$300</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="pestañas-premium">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: Cejas -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="13">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(13)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/Cejas.jpg" alt="Cejas" class="product-img">
+                <h3 style="text-transform: uppercase;">Cejas</h3>
+                <p class="price">$250</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="diseño-de-cejas">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
+
+            <!-- Tarjeta: LIMPIEZA FACIAL -->
+            <div class="product-card reveal">
+                <?php if (isset($_SESSION['admin_id'])): ?>
+                    <div class="admin-card-controls">
+                        <form action="admin_dashboard.php" method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="toggle">
+                            <input type="hidden" name="id" value="15">
+                            <input type="hidden" name="status" value="1">
+                            <button type="submit" class="admin-control-btn toggle" title="Ocultar/Mostrar"><i class="fas fa-eye"></i></button>
+                        </form>
+                        <div class="admin-control-btn edit" title="Editar" onclick="editService(15)"><i class="fas fa-pen"></i></div>
+                    </div>
+                <?php endif; ?>
+                <img src="uploads/limpiezaF.jpeg" alt="Limpieza Facial" class="product-img">
+                <h3 style="text-transform: uppercase;">Limpieza Facial</h3>
+                <p class="price">$1.000</p>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <button class="cta-button reserve-btn" data-service="limpieza-facial">Reservar</button>
+                <?php else: ?>
+                    <a href="login.php" class="cta-button">Reservar</a>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -163,11 +317,10 @@ foreach ($activeServices as $service) {
         <div class="container">
             <h2 class="section-title reveal">Desarrolladores</h2>
             <p class="section-subtitle reveal"
-                style="text-align: center; margin-bottom: 4rem; max-width: 800px; margin-left: auto; margin-right: auto; opacity: 0.8; font-style: italic; font-size: 1.2rem;">
+                style="text-align: center; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto; opacity: 0.8; font-style: italic; font-size: 1.2rem;">
                 "Impulsando la innovación tecnológica con pasión y dedicación para transformar el mundo de la belleza digital."
             </p>
         </div>
-    </section>
 
         <!-- Cuadros Estilo Colección: Visión, Misión y Valores -->
         <div id="mvv" class="container" style="margin-top: 5rem;">
@@ -363,11 +516,17 @@ foreach ($activeServices as $service) {
 
     <footer id="contact" class="footer section-padding">
         <div class="container">
-
+            <!-- Políticas Section -->
+            <div class="policies-box" style="margin-bottom: 3rem; padding: 2rem; background: rgba(223, 207, 190, 0.05); border: 1px solid rgba(212,175,55,0.2); border-radius: 12px;">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem; text-align: center;">Políticas de la Página</h3>
+                <p style="color: #888; line-height: 1.6; font-size: 0.9rem; text-align: center;">
+                    En Beauty Makeup, nos comprometemos a brindar un servicio de alta calidad. Las cancelaciones deben realizarse con al menos 24 horas de antelación. Las reservas a domicilio pueden tener un cargo adicional dependiendo de la ubicación. Sus datos personales están protegidos según nuestra política de privacidad.
+                </p>
+            </div>
 
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <h3>Glow Belleza</h3>
+                    <h3>BEAUTY MAKEUP</h3>
                     <p>Resaltando tu belleza natural con exclusividad y elegancia. Maquillaje de alta gama para cada
                         momento especial.</p>
                 </div>
@@ -379,12 +538,13 @@ foreach ($activeServices as $service) {
                         <li><a href="#about">Equipo</a></li>
                         <li><a href="#mvv">Nuestra Esencia</a></li>
                         <li><a href="#booking" class="nav-cta" data-service="reserva-domicilio">Reservas</a></li>
-                        <li><a href="javascript:void(0)" onclick="showPolicies()">Políticas</a></li>
+                        <li><a href="#contact">Información</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">
                     <h4>Servicios</h4>
                     <ul>
+                        <li><a href="#collection">Maquillaje Natural</a></li>
                         <li><a href="#collection">Soft Glam</a></li>
                         <li><a href="#collection">Bridal & Editorial</a></li>
                         <li><a href="#collection">Pestañas & Cejas</a></li>
@@ -401,7 +561,7 @@ foreach ($activeServices as $service) {
             </div>
             <div class="footer-bottom"
                 style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem; text-align: center;">
-                <p>&copy; <?php echo date('Y'); ?> Glow Belleza. Todos los derechos reservados.</p>
+                <p>&copy; <?php echo date('Y'); ?> Beauty Makeup. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -900,7 +1060,8 @@ foreach ($activeServices as $service) {
                 });
             });
 
-            // updateCartUI(); // Función no utilizada - el carrito se maneja mediante reservas directas
+            updateCartUI();
+
 
             // Inicio
             await fetchReservations();
@@ -928,34 +1089,6 @@ foreach ($activeServices as $service) {
 
         function editService(serviceId) {
             window.location.href = 'admin_dashboard.php?edit_service=' + serviceId;
-        }
-
-        function showPolicies() {
-            Swal.fire({
-                title: '<span style="font-family: \'Cormorant Garamond\', serif; color: #dfcfbe; font-size: 2rem;">POLÍTICAS DE GLOW BELLEZA</span>',
-                html: `
-                    <div style="text-align: left; line-height: 1.8; color: #ccc; font-family: 'Montserrat', sans-serif; font-size: 0.95rem;">
-                        <p style="margin-bottom: 1rem;">• Nos comprometemos a brindar un servicio de alta calidad y puntualidad.</p>
-                        <p style="margin-bottom: 1rem;">• <strong>Cancelaciones:</strong> Deben realizarse con al menos 24 horas de antelación para permitir la reasignación del turno.</p>
-                        <p style="margin-bottom: 1rem;">• <strong>Servicio a Domicilio:</strong> Puede aplicar un cargo adicional por transporte dependiendo de su ubicación.</p>
-                        <p style="margin-bottom: 0;">• <strong>Privacidad:</strong> Sus datos personales están protegidos y solo se utilizan para la gestión de sus citas.</p>
-                    </div>
-                `,
-                background: '#0d0d0d',
-                confirmButtonText: 'ENTENDIDO',
-                confirmButtonColor: '#dfcfbe',
-                customClass: {
-                    popup: 'swal-luxury-popup',
-                    confirmButton: 'swal-luxury-button'
-                },
-                buttonsStyling: true,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
-            });
         }
     </script>
 
